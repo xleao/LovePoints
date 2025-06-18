@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Experiencia Sorpresa 🎁❤️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body,h1,h2,p,ul,a { font-family:'Dancing Script',cursive; }
+    @keyframes wave { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+    .wave-char { display:inline-block; animation:wave 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-[#fffbe6] antialiased p-6">
+  <div class="max-w-6xl mx-auto space-y-6">
+    <!-- Botón Inicio -->
+    <a href="cupones.html"
+       class="inline-block mb-4 text-purple-800 hover:underline font-extrabold text-xl">
+      ← Volver a Cupones
+    </a>
+
+    <header class="bg-[#fff3cd] rounded-xl p-8 text-center shadow-md relative overflow-hidden">
+      <h1 id="headline" class="text-6xl font-bold text-[#795548] mb-4">
+        <script>
+          document.write(
+            "Experiencia Sorpresa ❤️"
+              .split("")
+              .map((c,i)=>`<span class="wave-char" style="animation-delay:${i*0.1}s">${c}</span>`)
+              .join("")
+          );
+        </script>
+      </h1>
+      <p class="text-2xl text-[#6d4c41]">
+        Una sorpresa única diseñada para ti. ¡Prepárate para la emoción! 🎉🔮
+      </p>
+      <div class="absolute top-6 right-8 animate-bounce text-5xl text-[#795548]">🎁</div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <section class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#795548] mb-4">📋 Condiciones de uso</h2>
+        <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
+          <li>🔒 <strong>Secreto total:</strong> Ojos vendados obligatorio.</li>
+          <li>🤗 <strong>Abrazo final:</strong> Imprescindible tras descubrir.</li>
+          <li>❓ <strong>Desafío:</strong> Si adivinas, te debo un baile.</li>
+          <li>🐔 <strong>Diomio:</strong> Jugar a la gallinita ciega.</li>
+        </ul>
+      </section>
+      <section class="bg-[#fff8e1] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#a57c00] mb-4">💡 Tips divertidos</h2>
+        <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
+          <li>🎶 Playlist de misterio para ambientar.</li>
+          <li>📸 Graba tu reacción para el recuerdo.</li>
+          <li>🕯️ Uso de inciensos.</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Válido hasta + Love Points -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <section class="bg-[#fffde7] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#f9a825] mb-4">⏰ Válido hasta</h2>
+        <p class="text-lg text-[#333]"><strong>31 de Diciembre 2025 🎁</strong></p>
+      </section>
+      <section class="bg-[#fffbe6] rounded-xl p-8 shadow-lg flex items-center justify-center">
+        <div class="text-3xl text-purple-800 font-bold">
+          Love Points: <span id="points" class="text-purple-600">0</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Mostrar Love Points desde localStorage
+    document.getElementById('points').textContent =
+      localStorage.getItem('lovePoints') || '0';
+  </script>
+</body>
+</html>

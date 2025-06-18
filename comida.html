@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comida 🍔</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body, h1, h2, p, ul, a { font-family: 'Dancing Script', cursive; }
+    @keyframes wave {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .wave-char { display: inline-block; animation: wave 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-[#fff8f0] antialiased p-6">
+  <div class="max-w-6xl mx-auto space-y-6">
+    <!-- Botón Inicio -->
+    <a href="cupones.html"
+       class="inline-block mb-4 text-purple-800 hover:underline font-extrabold text-xl">
+      ← Volver a Cupones
+    </a>
+
+    <!-- Encabezado -->
+    <header class="bg-[#ffebcd] rounded-xl p-8 text-center shadow-md relative overflow-hidden">
+      <h1 id="headline" class="text-6xl font-bold text-[#d45d12] mb-4">
+        <script>
+          document.write(
+            "Comida ❤️"
+              .split("")
+              .map((c,i) => `<span class="wave-char" style="animation-delay:${i*0.1}s">${c}</span>`)
+              .join("")
+          );
+        </script>
+      </h1>
+      <p class="text-2xl text-[#5a3e1b]">
+        Disfruta de tu aperitivo favorito… ¡Tú eliges! 😋☕🍟
+      </p>
+      <div class="absolute top-6 right-8 animate-bounce text-5xl">🍔</div>
+    </header>
+
+    <!-- Grid de recuadros en dos columnas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Condiciones -->
+      <section class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#d45d12] mb-4">📋 Condiciones de uso</h2>
+        <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
+          <li>🕒 <strong>Presencia obligatoria:</strong> Yo debo estar contigo.</li>
+          <li>🍽️ <strong>Elección conjunta:</strong> ¡Menú 50/50 entre tus antojos y mis ocurrencias!</li>
+          <li>🤳 <strong>Foto:</strong> Selfie inicial y final (sonrisa obligatoria 😁).</li>
+          <li>📵 <strong>Sin pantallas:</strong> Móviles guardados, miradas solo para ti.</li>
+        </ul>
+      </section>
+
+      <!-- Tips divertidos -->
+      <section class="bg-[#fde2e2] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#b02a37] mb-4">💡 Tips divertidos</h2>
+        <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
+          <li>🎲 Juguemos “Verdad o Reto” entre plato y plato.</li>
+          <li>🔔 Toca la campana imaginaria si quieres repetir.</li>
+          <li>🎶 Musica de fondo.</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Fila final: válido hasta + love points -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Válido hasta -->
+      <section class="bg-[#e8f9fd] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#0277bd] mb-4">⏰ Válido hasta</h2>
+        <p class="text-lg text-[#333]"><strong>31 de Diciembre 2025 🎉</strong></p>
+      </section>
+      <!-- Love Points -->
+      <section class="bg-[#fffaf0] rounded-xl p-8 shadow-lg flex items-center justify-center">
+        <div class="text-3xl text-purple-800 font-bold">
+          Love Points: <span id="points" class="text-purple-600">0</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Carga y muestra puntos desde localStorage
+    document.getElementById('points').textContent =
+      localStorage.getItem('lovePoints') || '0';
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ropa 👗</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body, h1, h2, p, ul, a { font-family: 'Dancing Script', cursive; }
+    @keyframes wave { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+    .wave-char { display:inline-block; animation:wave 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-[#f0f8ff] antialiased p-6">
+  <div class="max-w-6xl mx-auto space-y-6">
+    <!-- Botón Inicio en negrita contrastada -->
+    <a href="cupones.html"
+       class="inline-block mb-4 text-purple-900 hover:underline font-extrabold text-xl">
+      ← Volver a Cupones
+    </a>
+
+    <!-- Encabezado -->
+    <header class="bg-[#e0d7ff] rounded-xl p-8 text-center shadow-md relative overflow-hidden">
+      <h1 id="headline" class="text-6xl font-bold text-[#5b21b6] mb-4">
+        <script>
+          document.write(
+            "Ropa ❤️"
+              .split("")
+              .map((c,i)=>`<span class="wave-char" style="animation-delay:${i*0.1}s">${c}</span>`)
+              .join("")
+          );
+        </script>
+      </h1>
+      <p class="text-2xl text-[#4c1d95]">
+        Renueva tu estilo con esa prenda soñada… ¡prepárate para brillar! ✨👗
+      </p>
+      <div class="absolute top-6 right-8 animate-bounce text-5xl text-[#5b21b6]">👗</div>
+    </header>
+
+    <!-- Grid principal: condiciones + tips -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Condiciones -->
+      <section class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#5b21b6] mb-4">📋 Condiciones de uso</h2>
+        <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
+          <li>🛍️ <strong>Paseo estilo:</strong> Elegimos y probamos juntos cada look.</li>
+          <li>📸 <strong>Sesión express:</strong> Selfies con tu outfit favorito.</li>
+          <li>💜 <strong>Conseguimos:</strong> No nos vamos hasts conseguirte una prenda.</li>
+          <li>😊 <strong>Felicidades:</strong> Obtén 10 Love Points al reclamar este cupón</li>
+        </ul>
+      </section>
+      <!-- Tips divertidos -->
+      <section class="bg-[#e6e0ff] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#4c1d95] mb-4">💡 Tips divertidos</h2>
+        <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
+          <li>👠 Prueba algo inesperado: ¡zapatos que nunca hayas usado!</li>
+          <li>🤓 Buscamos y buscamos y nunca nos cansamos.</li>
+          <li>🍫 Pequeño chocolate premio tras cada compra.</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Fila final: válido hasta + love points -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Válido hasta -->
+      <section class="bg-[#dcd7ff] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#37235f] mb-4">⏰ Válido hasta</h2>
+        <p class="text-lg text-[#333]"><strong>30 de Noviembre 2025 👗</strong></p>
+      </section>
+      <!-- Love Points -->
+      <section class="bg-[#faf5ff] rounded-xl p-8 shadow-lg flex items-center justify-center">
+        <div class="text-3xl text-purple-800 font-bold">
+          Love Points: <span id="points" class="text-purple-600">0</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Carga los Love Points desde localStorage
+    document.getElementById('points').textContent =
+      localStorage.getItem('lovePoints') || '0';
+  </script>
+</body>
+</html>

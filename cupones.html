@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cupones - Love Points</title>
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Dancing Script -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    body, h2, h3, p, button, a { font-family: 'Dancing Script', cursive; }
+    body { background: url('fondo2.png') center/cover fixed no-repeat; }
+    @keyframes fadeInUp { 0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);} }
+    .fade-in { opacity:0; animation:fadeInUp .8s ease-out forwards; }
+    .delay-1 { animation-delay:.2s; }
+    .delay-2 { animation-delay:.4s; }
+    .delay-3 { animation-delay:.6s; }
+    .delay-4 { animation-delay:.8s; }
+    .delay-5 { animation-delay:1s; }
+    .delay-6 { animation-delay:1.2s; }
+    .card { background:rgba(255,255,255,.9); border-radius:1rem; padding:1.5rem; box-shadow:0 4px 12px rgba(0,0,0,.1); transition:transform .2s,box-shadow .2s; }
+    .card:hover { transform:translateY(-4px); box-shadow:0 6px 18px rgba(0,0,0,.2); }
+    .btn-claim { background:#7c3aed; color:#fff; padding:.75rem 1.5rem; border-radius:.75rem; transition:background .2s; }
+    .btn-claim:hover { background:#6d28d9; }
+    .btn-claim[disabled] { background:#c4b5fd; cursor:not-allowed; }
+    .btn-info { display:inline-block; margin-top:.5rem; color:#7c3aed; font-weight:700; text-decoration:underline; }
+    .btn-info:hover { color:#6d28d9; }
+    .btn-home { position:fixed; top:1rem; left:1rem; background:rgba(124,58,237,.9); color:#fff; padding:.5rem 1rem; border-radius:.5rem; z-index:50; transition:background .2s,transform .2s; }
+    .btn-home:hover { background:rgba(109,40,217,.9); transform:scale(1.05); }
+  </style>
+</head>
+<body class="antialiased">
+  <!-- Inicio -->
+  <a href="index.html" class="btn-home">🏠 Inicio</a>
+
+  <main class="min-h-screen py-12 px-6">
+    <!-- Puntos -->
+    <h2 class="text-4xl text-purple-800 font-bold text-center mb-8 fade-in delay-1">
+      Mis Love Points: <span id="points" class="text-purple-600">0</span>
+    </h2>
+    <!-- Grid -->
+    <div id="cuponesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
+  </main>
+
+  <script>
+    // lista de cupones
+    const CUPONES = [
+      { id:1, title:"Cupón de Comida 🍔", cost:50, desc:"Primero el diente luego el pendiente...", page:"comida.html" },
+      { id:2, title:"Cupón de Ropa 👗",     cost:100, desc:"Nueva outfit, mi chica tiene estilo.",   page:"ropa.html"   },
+      { id:3, title:"Cupón de Maquillaje 💄",cost:100, desc:"¿Qué es Aruma?",         page:"maquillaje.html" },
+      { id:4, title:"Juegos Mecánicos 🎢",  cost:200, desc:"Pase para atracciones...", page:"mecanicos.html" },
+      { id:5, title:"Cupón Masaje 💆‍♀️",   cost:50, desc:"Masaje 30 min con aceites…",         page:"masaje.html"  },
+      { id:6, title:"Experiencia Sorpresa 🎁",cost:150, desc:"Sorpresa personalizada… 🤫",         page:"sorpresa.html" }
+    ];
+
+    const LS_POINTS   = "lovePoints";
+    const LS_CLAIMED  = "claimedCupones";
+    const WEEK_MS     = 7 * 24 * 60 * 60 * 1000;
+
+    // reset histórico (solo si quieres forzar borrado en cada carga)
+    // localStorage.removeItem(LS_CLAIMED);
+
+    const getPoints   = () => Number(localStorage.getItem(LS_POINTS)  || 0);
+    const setPoints   = v  => localStorage.setItem(LS_POINTS, v);
+    const getClaimed  = () => JSON.parse(localStorage.getItem(LS_CLAIMED) || "{}");
+    const setClaimed  = o  => localStorage.setItem(LS_CLAIMED, JSON.stringify(o));
+
+    // formatea ms → "Xd Yh Zm As"
+    function fmt(ms) {
+      const d = Math.floor(ms/86400000); ms%=86400000;
+      const h = Math.floor(ms/3600000); ms%=3600000;
+      const m = Math.floor(ms/60000); ms%=60000;
+      const s = Math.floor(ms/1000);
+      return `${d}d ${h}h ${m}m ${s}s`;
+    }
+
+    function renderPoints(){
+      document.getElementById("points").textContent = getPoints();
+    }
+
+    function renderCupones(){
+      const grid    = document.getElementById("cuponesGrid");
+      const claimed = getClaimed();
+      const now     = Date.now();
+      grid.innerHTML = "";
+
+      CUPONES.forEach((c,i)=>{
+        const ts        = claimed[c.id] || 0;
+        const elapsed   = now - ts;
+        const remaining = WEEK_MS - elapsed;
+        const cooling   = ts && remaining>0;
+
+        // tarjeta
+        const div = document.createElement("div");
+        div.className = `card fade-in delay-${i+1}`;
+        div.innerHTML = `
+          <h3 class="text-2xl sm:text-3xl font-bold mb-2">${c.title}</h3>
+          <p class="mb-4 text-lg">${c.desc}</p>
+          <p class="font-semibold text-purple-600 mb-4">Costo: ${c.cost} LP</p>
+          <button ${cooling?"disabled":""} id="btn${c.id}"
+                  class="btn-claim w-full mb-2 text-lg">
+            ${cooling? fmt(remaining) : "Reclamar"}
+          </button>
+          <a href="${c.page}" class="btn-info text-lg">Más información</a>
+        `;
+        grid.appendChild(div);
+
+        const btn = document.getElementById(`btn${c.id}`);
+        if(cooling){
+          // refresca cada segundo
+          const iv = setInterval(()=>{
+            const now2  = Date.now();
+            const rem2  = WEEK_MS - (now2 - ts);
+            if(rem2<=0){
+              clearInterval(iv);
+              renderCupones();
+            } else {
+              btn.textContent = fmt(rem2);
+            }
+          },1000);
+        } else {
+          btn.onclick = ()=>{
+            if(getPoints() >= c.cost){
+              setPoints(getPoints() - c.cost);
+              const obj = getClaimed();
+              obj[c.id] = Date.now();
+              setClaimed(obj);
+              alert("¡Cupón reclamado! Vuelve en 7 días.");
+              renderPoints();
+              renderCupones();
+            } else {
+              alert("No tienes suficientes Love Points 😢");
+            }
+          };
+        }
+      });
+    }
+
+    // —— MODO ADMIN —— ctrl+shift+l
+    document.addEventListener("keydown", e=>{
+      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="l"){
+        const pwd = prompt("🔐 Clave admin:");
+        if(pwd !== "admin123"){
+          alert("❌ Clave incorrecta");
+          return;
+        }
+        const opt = prompt(
+          "🛠️ MENÚ ADMIN:\n" +
+          "1) Añadir puntos\n" +
+          "2) Quitar puntos\n" +
+          "3) Reiniciar TODOS los cupones\n" +
+          "4) Reiniciar cupón específico\n\n" +
+          "Selecciona (1-4):"
+        );
+        switch(opt){
+          case "1": {
+            const v = parseInt(prompt("¿Cuántos puntos añadir?","50"),10);
+            if(v>0){ setPoints(getPoints()+v); renderPoints(); alert(`✅ +${v} LP`); }
+            break;
+          }
+          case "2": {
+            const v = parseInt(prompt("¿Cuántos puntos quitar?","50"),10);
+            if(v>0){ setPoints(Math.max(0,getPoints()-v)); renderPoints(); alert(`✅ -${v} LP`); }
+            break;
+          }
+          case "3":
+            if(confirm("¿Borrar todos los cooldowns?")){
+              localStorage.removeItem(LS_CLAIMED);
+              renderCupones();
+              alert("🔄 Todos los cupones reiniciados");
+            }
+            break;
+          case "4": {
+            const list = CUPONES.map(c=>`${c.id}: ${c.title}`).join("\n");
+            const id   = parseInt(prompt("¿Qué cupón reiniciar?\n"+list),10);
+            if(CUPONES.some(c=>c.id===id)){
+              const obj = getClaimed(); delete obj[id]; setClaimed(obj);
+              renderCupones();
+              alert(`🔄 Cupón ${id} reiniciado`);
+            } else alert("❌ ID inválido");
+            break;
+          }
+          default:
+            alert("❌ Opción no válida");
+        }
+      }
+    });
+
+    // init
+    renderPoints();
+    renderCupones();
+  </script>
+</body>
+</html>

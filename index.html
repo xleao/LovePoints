@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Points & Cupones</title>
+  <!-- Tailwind CDN para estilos modernos -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fuente Dancing Script desde Google Fonts para cursiva legible -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Fuente global: Dancing Script */
+    body, #landing, h1, p, a {
+      font-family: 'Dancing Script', cursive;
+    }
+    /* Fondo personalizado */
+    #landing {
+      background-image: url('fondo1.png');
+      background-size: cover;
+      background-position: center;
+    }
+    /* Animación de aparición */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    /* Animación de ola para cada letra */
+    @keyframes wave {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    /* Fade-in genérico */
+    .fade-in-up {
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    /* Delays escalonados */
+    .delay-1 { animation-delay: 0.3s; }
+    .delay-2 { animation-delay: 0.6s; }
+    .delay-3 { animation-delay: 0.9s; }
+    /* Ola por letra */
+    .wave-char {
+      display: inline-block;
+      animation: wave 2s ease-in-out infinite;
+    }
+    /* Destacar Love Points y encabezado */
+    .love-bold {
+      font-weight: 900; /* peso máximo */
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* contorno sutil */
+    }
+  </style>
+</head>
+<body class="antialiased">
+  <!-- Solo landing: botón redirige a coupons.html -->
+  <section id="landing" class="min-h-screen flex flex-col items-center justify-center text-center p-6 fade-in-up">
+    <!-- Título en morado claro -->
+    <h1 class="love-bold text-7xl sm:text-9xl text-purple-200 mb-4 delay-1" id="headline">
+      ¡Bienvenida, Amor ❤️!
+    </h1>
+    <p class="max-w-xl text-3xl sm:text-4xl mb-8 text-white delay-2">
+      Estás en tu propio portal de <span class="love-bold">Love Points</span>. Aquí podrás ver cuántos puntos hemos acumulado juntos y canjear increíbles cupones personalizados cuando llegues a la meta.
+    </p>
+    <!-- Enlace a nueva página de cupones: morado oscuro -->
+    <a href="cupones.html"
+       class="bg-purple-800 hover:bg-purple-900 text-white text-4xl px-12 py-5 rounded-2xl shadow-lg transition delay-3 fade-in-up">
+      Entrar
+    </a>
+  </section>
+
+  <script>
+    // Efecto ola letra por letra en el heading
+    document.addEventListener('DOMContentLoaded', () => {
+      const headline = document.getElementById('headline');
+      const text = headline.textContent;
+      headline.innerHTML = '';
+      text.split('').forEach((char, i) => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.className = 'wave-char';
+        span.style.animationDelay = `${i * 0.1}s`;
+        headline.appendChild(span);
+      });
+    });
+  </script>
+</body>
+</html>
