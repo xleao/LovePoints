@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Maquillaje 💄</title>
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Dancing Script -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body,h1,h2,p,ul,a{font-family:'Dancing Script',cursive;}
-    @keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-    .wave-char{display:inline-block;animation:wave 2s ease-in-out infinite;}
+    body, h1, h2, p, ul, a { font-family: 'Dancing Script', cursive; }
+    @keyframes wave { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+    .wave-char { display:inline-block; animation:wave 2s ease-in-out infinite; }
   </style>
 </head>
 <body class="bg-[#fff0f6] antialiased p-6">
+
   <div class="max-w-6xl mx-auto space-y-6">
     <!-- Botón Inicio -->
     <a href="cupones.html"
@@ -19,15 +22,15 @@
       ← Volver a Cupones
     </a>
 
+    <!-- Encabezado -->
     <header class="bg-[#ffe4f0] rounded-xl p-8 text-center shadow-md relative overflow-hidden">
       <h1 id="headline" class="text-6xl font-bold text-[#9d174d] mb-4">
         <script>
           document.write(
             "Maquillaje ❤️"
               .split("")
-              .map((c,i)=>
-                `<span class="wave-char" style="animation-delay:${i*0.1}s">${c}</span>`
-              ).join("")
+              .map((c,i)=>`<span class="wave-char" style="animation-delay:${i*0.1}s">${c}</span>`)
+              .join("")
           );
         </script>
       </h1>
@@ -37,6 +40,7 @@
       <div class="absolute top-6 right-8 animate-bounce text-5xl text-[#9d174d]">💄</div>
     </header>
 
+    <!-- Condiciones + Tips -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <section class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
         <h2 class="text-3xl font-semibold text-[#9d174d] mb-4">📋 Condiciones de uso</h2>
@@ -47,7 +51,6 @@
           <li>⏳ <strong>Caduca:</strong> Dentro de 15 días para un glow siempre fresco.</li>
         </ul>
       </section>
-
       <section class="bg-[#fde8f0] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
         <h2 class="text-3xl font-semibold text-[#831843] mb-4">💡 Tips divertidos</h2>
         <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
@@ -58,6 +61,7 @@
       </section>
     </div>
 
+    <!-- Válido hasta + Love Points -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <section class="bg-[#ffe4ec] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
         <h2 class="text-3xl font-semibold text-[#6b042f] mb-4">⏰ Válido hasta</h2>
@@ -71,10 +75,35 @@
     </div>
   </div>
 
+  <!-- Sincronización de Love Points -->
   <script>
-    // Carga y muestra puntos desde localStorage
-    document.getElementById('points').textContent =
-      localStorage.getItem('lovePoints') || '0';
+    const BIN_ID  = "6852de1e8960c979a5ac426c";       // <-- remplaza con tu BIN_ID
+    const API_KEY = "$2a$10$BqxbeqZvxsnLSi7DiKOIpe7IVhHxFcqdtgmmFR205wMAXzegMbu1G";   // <-- remplaza con tu Master Key
+    const BASE    = BIN_ID && API_KEY
+      ? `https://api.jsonbin.io/v3/b/${BIN_ID}`
+      : null;
+    const HEADERS = {
+      "Content-Type": "application/json",
+      "X-Master-Key": API_KEY
+    };
+
+    async function loadPoints() {
+      if (!BASE) return;
+      try {
+        const res = await fetch(`${BASE}/latest`, { headers: HEADERS });
+        const { record } = await res.json();
+        const pts = Number(record.lovePoints) || 0;
+        localStorage.setItem("lovePoints", pts);
+        document.getElementById("points").textContent = pts;
+      } catch {
+        // Fallback a localStorage si falla la petición
+        document.getElementById("points").textContent =
+          localStorage.getItem("lovePoints") || 0;
+      }
+    }
+
+    // Al cargar, sincroniza con cupones.html
+    loadPoints();
   </script>
 </body>
 </html>

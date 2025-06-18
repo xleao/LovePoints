@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Juegos Mecánicos 🎢</title>
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Dancing Script -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body,h1,h2,p,ul,a { font-family:'Dancing Script',cursive; }
+    body, h1, h2, p, ul, a { font-family: 'Dancing Script', cursive; }
     @keyframes wave { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
     .wave-char { display:inline-block; animation:wave 2s ease-in-out infinite; }
   </style>
@@ -19,6 +21,7 @@
       ← Volver a Cupones
     </a>
 
+    <!-- Encabezado -->
     <header class="bg-[#b2ebf2] rounded-xl p-8 text-center shadow-md relative overflow-hidden">
       <h1 id="headline" class="text-6xl font-bold text-[#01579b] mb-4">
         <script>
@@ -72,10 +75,40 @@
     </div>
   </div>
 
+  <!-- Sincronización de Love Points -->
   <script>
-    // Mostrar Love Points desde localStorage
-    document.getElementById('points').textContent =
-      localStorage.getItem('lovePoints') || '0';
+    const BIN_ID  = "6852de1e8960c979a5ac426c";       // <-- remplaza con tu BIN_ID
+    const API_KEY = "$2a$10$BqxbeqZvxsnLSi7DiKOIpe7IVhHxFcqdtgmmFR205wMAXzegMbu1G";   // <-- remplaza con tu Master Key
+    const BASE    = BIN_ID && API_KEY
+      ? `https://api.jsonbin.io/v3/b/${BIN_ID}`
+      : null;
+    const HEADERS = {
+      "Content-Type": "application/json",
+      "X-Master-Key": API_KEY
+    };
+
+    async function loadPoints() {
+      if (!BASE) {
+        // Si no está configurado, usar fallback local
+        document.getElementById("points").textContent =
+          localStorage.getItem("lovePoints") || 0;
+        return;
+      }
+      try {
+        const res = await fetch(`${BASE}/latest`, { headers: HEADERS });
+        if (!res.ok) throw new Error("Fetch failed");
+        const { record } = await res.json();
+        const pts = Number(record.lovePoints) || 0;
+        localStorage.setItem("lovePoints", pts);
+        document.getElementById("points").textContent = pts;
+      } catch {
+        document.getElementById("points").textContent =
+          localStorage.getItem("lovePoints") || 0;
+      }
+    }
+
+    // Carga al inicio
+    loadPoints();
   </script>
 </body>
 </html>

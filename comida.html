@@ -60,7 +60,7 @@
         <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
           <li>🎲 Juguemos “Verdad o Reto” entre plato y plato.</li>
           <li>🔔 Toca la campana imaginaria si quieres repetir.</li>
-          <li>🎶 Musica de fondo.</li>
+          <li>🎶 Música de fondo.</li>
         </ul>
       </section>
     </div>
@@ -82,9 +82,38 @@
   </div>
 
   <script>
-    // Carga y muestra puntos desde localStorage
-    document.getElementById('points').textContent =
-      localStorage.getItem('lovePoints') || '0';
+    ///////////////////////////////////////////////////////////////////////////
+    // aquí empieza el bloque que sincroniza con JSONBin (igual que en cupones.html)
+    ///////////////////////////////////////////////////////////////////////////
+
+    const BIN_ID  = "6852de1e8960c979a5ac426c";       // <-- remplaza con tu BIN_ID
+    const API_KEY = "$2a$10$BqxbeqZvxsnLSi7DiKOIpe7IVhHxFcqdtgmmFR205wMAXzegMbu1G";   // <-- remplaza con tu Master Key
+    const BASE    = BIN_ID && API_KEY
+      ? `https://api.jsonbin.io/v3/b/${BIN_ID}`
+      : null;
+    const HEADERS = {
+      "Content-Type":"application/json",
+      "X-Master-Key": API_KEY
+    };
+
+    // lee del bin y guarda en localStorage
+    async function loadPoints(){
+      if(!BASE) return;
+      try {
+        const res = await fetch(`${BASE}/latest`, { headers: HEADERS });
+        const { record } = await res.json();
+        const p = Number(record.lovePoints) || 0;
+        localStorage.setItem("lovePoints", p);
+        document.getElementById("points").textContent = p;
+      } catch(e){
+        // si falla, toma lo local
+        document.getElementById("points").textContent =
+          localStorage.getItem("lovePoints") || 0;
+      }
+    }
+
+    // al cargar página…
+    loadPoints();
   </script>
 </body>
 </html>

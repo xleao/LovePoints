@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ropa 👗</title>
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Dancing Script -->
   <link
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
     rel="stylesheet"
@@ -49,7 +50,7 @@
         <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
           <li>🛍️ <strong>Paseo estilo:</strong> Elegimos y probamos juntos cada look.</li>
           <li>📸 <strong>Sesión express:</strong> Selfies con tu outfit favorito.</li>
-          <li>💜 <strong>Conseguimos:</strong> No nos vamos hasts conseguirte una prenda.</li>
+          <li>💜 <strong>Conseguimos:</strong> No nos vamos hasta conseguirte una prenda.</li>
           <li>😊 <strong>Felicidades:</strong> Obtén 10 Love Points al reclamar este cupón</li>
         </ul>
       </section>
@@ -80,10 +81,34 @@
     </div>
   </div>
 
+  <!-- Script para sincronizar Love Points desde JSONBin -->
   <script>
-    // Carga los Love Points desde localStorage
-    document.getElementById('points').textContent =
-      localStorage.getItem('lovePoints') || '0';
+    const BIN_ID  = "6852de1e8960c979a5ac426c";       // <-- remplaza con tu BIN_ID
+    const API_KEY = "$2a$10$BqxbeqZvxsnLSi7DiKOIpe7IVhHxFcqdtgmmFR205wMAXzegMbu1G";   // <-- remplaza con tu Master Key
+    const BASE    = BIN_ID && API_KEY
+      ? `https://api.jsonbin.io/v3/b/${BIN_ID}`
+      : null;
+    const HEADERS = {
+      "Content-Type": "application/json",
+      "X-Master-Key": API_KEY
+    };
+
+    async function loadPoints(){
+      if(!BASE) return;
+      try {
+        const res = await fetch(`${BASE}/latest`, { headers: HEADERS });
+        const { record } = await res.json();
+        const p = Number(record.lovePoints) || 0;
+        localStorage.setItem("lovePoints", p);
+        document.getElementById("points").textContent = p;
+      } catch {
+        document.getElementById("points").textContent =
+          localStorage.getItem("lovePoints") || 0;
+      }
+    }
+
+    // Al cargar la página, sincroniza los puntos
+    loadPoints();
   </script>
 </body>
 </html>

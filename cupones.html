@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cupones - Love Points</title>
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -31,76 +30,94 @@
   </style>
 </head>
 <body class="antialiased">
-  <!-- Inicio -->
+  <!-- Botón Inicio -->
   <a href="index.html" class="btn-home">🏠 Inicio</a>
 
   <main class="min-h-screen py-12 px-6">
-    <!-- Puntos -->
+    <!-- Contador de Love Points -->
     <h2 class="text-4xl text-purple-800 font-bold text-center mb-8 fade-in delay-1">
       Mis Love Points: <span id="points" class="text-purple-600">0</span>
     </h2>
-    <!-- Grid -->
-    <div id="cuponesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
+    <!-- Grid de cupones -->
+    <div id="cuponesGrid"
+         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
   </main>
 
   <script>
-    // lista de cupones
+    // — Lista de cupones —
     const CUPONES = [
       { id:1, title:"Cupón de Comida 🍔", cost:50, desc:"Primero el diente luego el pendiente...", page:"comida.html" },
-      { id:2, title:"Cupón de Ropa 👗",     cost:100, desc:"Nueva outfit, mi chica tiene estilo.",   page:"ropa.html"   },
-      { id:3, title:"Cupón de Maquillaje 💄",cost:100, desc:"¿Qué es Aruma?",         page:"maquillaje.html" },
-      { id:4, title:"Juegos Mecánicos 🎢",  cost:200, desc:"Pase para atracciones...", page:"mecanicos.html" },
-      { id:5, title:"Cupón Masaje 💆‍♀️",   cost:50, desc:"Masaje 30 min con aceites…",         page:"masaje.html"  },
-      { id:6, title:"Experiencia Sorpresa 🎁",cost:150, desc:"Sorpresa personalizada… 🤫",         page:"sorpresa.html" }
+      { id:2, title:"Cupón de Ropa 👗", cost:100, desc:"Nueva outfit, mi chica tiene estilo.", page:"ropa.html" },
+      { id:3, title:"Cupón de Maquillaje 💄", cost:100, desc:"¿Qué es Aruma?", page:"maquillaje.html" },
+      { id:4, title:"Juegos Mecánicos 🎢", cost:200, desc:"Pase para atracciones...", page:"mecanicos.html" },
+      { id:5, title:"Cupón Masaje 💆‍♀️", cost:50, desc:"Masaje 30 min con aceites…", page:"masaje.html" },
+      { id:6, title:"Experiencia Sorpresa 🎁", cost:150, desc:"Sorpresa personalizada… 🤫", page:"sorpresa.html" }
     ];
+    const WEEK_MS = 7*24*60*60*1000;
 
-    const LS_POINTS   = "lovePoints";
-    const LS_CLAIMED  = "claimedCupones";
-    const WEEK_MS     = 7 * 24 * 60 * 60 * 1000;
+    // — JSONBin.io CONFIG (fallback a localStorage si faltan) —
+    const BIN_ID  = "6852de1e8960c979a5ac426c";
+    const API_KEY = "$2a$10$BqxbeqZvxsnLSi7DiKOIpe7IVhHxFcqdtgmmFR205wMAXzegMbu1G";
+    const BASE    = (BIN_ID && API_KEY)
+      ? `https://api.jsonbin.io/v3/b/${BIN_ID}`
+      : null;
+    const HEADERS = { "Content-Type":"application/json", "X-Master-Key": API_KEY };
 
-    // reset histórico (solo si quieres forzar borrado en cada carga)
-    // localStorage.removeItem(LS_CLAIMED);
+    // — Helpers localStorage —
+    const getLocalPoints = ()=> Number(localStorage.getItem("lovePoints")||0);
+    const setLocalPoints = v=> localStorage.setItem("lovePoints",v);
 
-    const getPoints   = () => Number(localStorage.getItem(LS_POINTS)  || 0);
-    const setPoints   = v  => localStorage.setItem(LS_POINTS, v);
-    const getClaimed  = () => JSON.parse(localStorage.getItem(LS_CLAIMED) || "{}");
-    const setClaimed  = o  => localStorage.setItem(LS_CLAIMED, JSON.stringify(o));
+    // — Leer/escribir remoto —
+    async function loadPoints(){
+      if(!BASE) throw 0;
+      const r = await fetch(BASE,{headers:HEADERS});
+      if(!r.ok) throw 0;
+      const {record} = await r.json();
+      return record.lovePoints||0;
+    }
+    async function savePoints(v){
+      if(!BASE) throw 0;
+      await fetch(BASE,{
+        method:"PUT",
+        headers:HEADERS,
+        body: JSON.stringify({lovePoints:v})
+      });
+    }
 
-    // formatea ms → "Xd Yh Zm As"
-    function fmt(ms) {
-      const d = Math.floor(ms/86400000); ms%=86400000;
-      const h = Math.floor(ms/3600000); ms%=3600000;
-      const m = Math.floor(ms/60000); ms%=60000;
-      const s = Math.floor(ms/1000);
+    // — Formatear ms a "Xd Yh Zm As" —
+    function fmt(ms){
+      let d=Math.floor(ms/86400000); ms%=86400000;
+      let h=Math.floor(ms/3600000); ms%=3600000;
+      let m=Math.floor(ms/60000); ms%=60000;
+      let s=Math.floor(ms/1000);
       return `${d}d ${h}h ${m}m ${s}s`;
     }
 
-    function renderPoints(){
-      document.getElementById("points").textContent = getPoints();
-    }
+    // — Inicializar UI —
+    async function init(){
+      let pts;
+      try { pts = await loadPoints(); }
+      catch { pts = getLocalPoints(); }
+      document.getElementById("points").textContent = pts;
 
-    function renderCupones(){
-      const grid    = document.getElementById("cuponesGrid");
-      const claimed = getClaimed();
+      const claimed = JSON.parse(localStorage.getItem("claimedCupones")||"{}");
       const now     = Date.now();
-      grid.innerHTML = "";
+      const grid    = document.getElementById("cuponesGrid");
+      grid.innerHTML="";
 
       CUPONES.forEach((c,i)=>{
-        const ts        = claimed[c.id] || 0;
-        const elapsed   = now - ts;
-        const remaining = WEEK_MS - elapsed;
-        const cooling   = ts && remaining>0;
+        const ts      = claimed[c.id]||0;
+        const rem     = WEEK_MS - (now - ts);
+        const cooling = ts && rem>0;
 
-        // tarjeta
         const div = document.createElement("div");
         div.className = `card fade-in delay-${i+1}`;
-        div.innerHTML = `
+        div.innerHTML=`
           <h3 class="text-2xl sm:text-3xl font-bold mb-2">${c.title}</h3>
           <p class="mb-4 text-lg">${c.desc}</p>
           <p class="font-semibold text-purple-600 mb-4">Costo: ${c.cost} LP</p>
-          <button ${cooling?"disabled":""} id="btn${c.id}"
-                  class="btn-claim w-full mb-2 text-lg">
-            ${cooling? fmt(remaining) : "Reclamar"}
+          <button ${cooling?"disabled":""} id="btn${c.id}" class="btn-claim w-full mb-2 text-lg">
+            ${cooling? fmt(rem) : "Reclamar"}
           </button>
           <a href="${c.page}" class="btn-info text-lg">Más información</a>
         `;
@@ -108,27 +125,21 @@
 
         const btn = document.getElementById(`btn${c.id}`);
         if(cooling){
-          // refresca cada segundo
           const iv = setInterval(()=>{
-            const now2  = Date.now();
-            const rem2  = WEEK_MS - (now2 - ts);
-            if(rem2<=0){
-              clearInterval(iv);
-              renderCupones();
-            } else {
-              btn.textContent = fmt(rem2);
-            }
+            const now2 = Date.now(), r2 = WEEK_MS - (now2 - ts);
+            if(r2<=0){ clearInterval(iv); init(); }
+            else      { btn.textContent = fmt(r2); }
           },1000);
         } else {
-          btn.onclick = ()=>{
-            if(getPoints() >= c.cost){
-              setPoints(getPoints() - c.cost);
-              const obj = getClaimed();
-              obj[c.id] = Date.now();
-              setClaimed(obj);
+          btn.onclick = async ()=>{
+            if(pts >= c.cost){
+              pts -= c.cost;
+              try{ await savePoints(pts); }
+              catch{ setLocalPoints(pts); }
+              claimed[c.id] = Date.now();
+              localStorage.setItem("claimedCupones",JSON.stringify(claimed));
               alert("¡Cupón reclamado! Vuelve en 7 días.");
-              renderPoints();
-              renderCupones();
+              init();
             } else {
               alert("No tienes suficientes Love Points 😢");
             }
@@ -137,59 +148,71 @@
       });
     }
 
-    // —— MODO ADMIN —— ctrl+shift+l
-    document.addEventListener("keydown", e=>{
+    // — MODO ADMIN: ctrl+shift+L —
+    document.addEventListener("keydown", async e=>{
       if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="l"){
         const pwd = prompt("🔐 Clave admin:");
-        if(pwd !== "Key!"){
-          alert("❌ Clave incorrecta");
-          return;
-        }
+        if(pwd !== "admin123") return alert("❌ Clave incorrecta");
+
+        let pts;
+        try{ pts = await loadPoints(); }
+        catch{ pts = getLocalPoints(); }
+
         const opt = prompt(
           "🛠️ MENÚ ADMIN:\n" +
           "1) Añadir puntos\n" +
           "2) Quitar puntos\n" +
-          "3) Reiniciar TODOS los cupones\n" +
-          "4) Reiniciar cupón específico\n\n" +
-          "Selecciona (1-4):"
+          "3) Reiniciar TODOS los cooldowns\n" +
+          "4) Reiniciar un cupón\n" +
+          "5) Ver estado de cupones\n\n" +
+          "Elige (1-5):"
         );
         switch(opt){
           case "1": {
-            const v = parseInt(prompt("¿Cuántos puntos añadir?","50"),10);
-            if(v>0){ setPoints(getPoints()+v); renderPoints(); alert(`✅ +${v} LP`); }
-            break;
+            const v=+prompt("¿Cuántos puntos añadir?","50");
+            pts += v; break;
           }
           case "2": {
-            const v = parseInt(prompt("¿Cuántos puntos quitar?","50"),10);
-            if(v>0){ setPoints(Math.max(0,getPoints()-v)); renderPoints(); alert(`✅ -${v} LP`); }
-            break;
+            const v=+prompt("¿Cuántos puntos quitar?","50");
+            pts = Math.max(0, pts - v); break;
           }
           case "3":
             if(confirm("¿Borrar todos los cooldowns?")){
-              localStorage.removeItem(LS_CLAIMED);
-              renderCupones();
+              localStorage.removeItem("claimedCupones");
               alert("🔄 Todos los cupones reiniciados");
             }
             break;
           case "4": {
             const list = CUPONES.map(c=>`${c.id}: ${c.title}`).join("\n");
-            const id   = parseInt(prompt("¿Qué cupón reiniciar?\n"+list),10);
-            if(CUPONES.some(c=>c.id===id)){
-              const obj = getClaimed(); delete obj[id]; setClaimed(obj);
-              renderCupones();
-              alert(`🔄 Cupón ${id} reiniciado`);
-            } else alert("❌ ID inválido");
+            const id = +prompt("¿Qué cupón reiniciar?\n"+list);
+            const claimed = JSON.parse(localStorage.getItem("claimedCupones")||"{}");
+            if(claimed[id]){ delete claimed[id]; localStorage.setItem("claimedCupones",JSON.stringify(claimed)); alert(`🔄 Cupón ${id} reiniciado`); }
+            else alert("❌ Cupón no estaba en cooldown");
+            break;
+          }
+          case "5": {
+            const claimed = JSON.parse(localStorage.getItem("claimedCupones")||"{}");
+            const msg = Object.keys(claimed).length
+              ? Object.entries(claimed).map(([id,ts])=>`#${id}: ${new Date(ts).toLocaleString()}`).join("\n")
+              : "— Ningún cupón reclamado aún";
+            alert("📋 Estado de cupones:\n"+msg);
             break;
           }
           default:
-            alert("❌ Opción no válida");
+            return alert("❌ Opción no válida");
         }
+
+        // si modificamos puntos, los guardamos
+        if(opt==="1"||opt==="2"){
+          try{ await savePoints(pts); }
+          catch{ setLocalPoints(pts); }
+          alert(`💖 Love Points ahora: ${pts}`);
+        }
+        init();
       }
     });
 
-    // init
-    renderPoints();
-    renderCupones();
+    init();
   </script>
 </body>
 </html>
