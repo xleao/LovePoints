@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil Suti 💜</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-height: 100vh; margin: 0; padding: 0;}
+    body {
+      background: linear-gradient(120deg, #f4eeff 0%, #e7dcfa 100%);
+      font-family: 'Dancing Script', cursive;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-amor {
+      background: #fff;
+      border-radius: 2.3rem;
+      border: 2.5px solid #cab1f7;
+      box-shadow: 0 8px 36px #b69de930;
+      width: 80vw;
+      max-width: 1040px;
+      min-height: 520px;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      padding: 0;
+      overflow: hidden;
+      transition: width 0.2s, max-width 0.2s;
+    }
+    .lado-foto {
+      background: linear-gradient(135deg,#e8dcfb 30%,#f7f2fe 100%);
+      min-width: 280px;
+      max-width: 325px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3.3rem 1.3rem 1.5rem 1.3rem;
+      position: relative;
+    }
+    .foto-amor {
+      width: 150px; height: 150px;
+      object-fit: cover;
+      border-radius: 22px;
+      border: 5px solid #bba5f2;
+      box-shadow: 0 2px 20px #cdb8f955;
+      background: #f9f6ff;
+      margin-bottom: 2rem;
+    }
+    .nombres-amor {
+      font-size: 2.18rem;
+      font-weight: 700;
+      color: #a079d9;
+      letter-spacing: 1.7px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      justify-content: center;
+      margin-top: 0.2rem;
+    }
+    .lado-ficha {
+      flex: 1;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      padding: 2.3rem 2.1rem 2.3rem 1.3rem;
+    }
+    .tabla-ficha {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0px 48px;
+      margin-top: .7rem;
+      background: none;
+    }
+    .nombre-columna {
+      font-size: 1.53rem;
+      font-weight: 800;
+      color: #a179db;
+      text-align: center;
+      padding-bottom: 8px;
+      letter-spacing: 1.2px;
+      margin-bottom: 1.1rem;
+      border-bottom: 2px solid #ecdffb;
+    }
+    .favs-list {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 1.17rem;
+    }
+    .campo-ficha {
+      display: flex;
+      align-items: center;
+      color: #7454a8;
+      gap: 8px;
+    }
+    .campo-titulo {
+      color: #be95e5;
+      font-weight: 700;
+      min-width: 95px;
+      letter-spacing: .8px;
+      font-size: 1.04em;
+      margin-right: 2px;
+    }
+    .campo-emoji {
+      font-size: 1.17em;
+      margin-right: 6px;
+    }
+    @media (max-width: 900px){
+      .card-amor { flex-direction: column; width: 99vw; min-width: 0; max-width: 99vw; min-height: 0;}
+      .lado-foto { min-width: 0; max-width: 100vw; padding: 1.2rem 0.7rem 0.7rem 0.7rem;}
+      .foto-amor { width: 90px; height: 90px;}
+      .nombres-amor { font-size: 1.12rem; gap: 9px;}
+      .lado-ficha { padding: 1.1rem 0.4rem 1.1rem 0.4rem;}
+      .tabla-ficha { grid-template-columns: 1fr; gap: 0;}
+      .nombre-columna { font-size: .99rem; }
+      .favs-list { gap: 8px; font-size: .95rem;}
+      .campo-titulo { min-width: 60px; }
+    }
+    /* Botón Menú arriba a la izquierda */
+    .volver-btn {
+      position: fixed; top: 24px; left: 24px;
+      background: #ede0faee;
+      color: #623da1;
+      font-weight: 700;
+      font-size: 1.07rem;
+      border-radius: 7px;
+      padding: 12px 22px 12px 16px;
+      text-decoration: none;
+      display: flex; align-items: center;
+      border: 2.5px solid #623da1;
+      box-shadow: 0 1px 14px #dec6fc2c;
+      transition: background .2s, color .2s, box-shadow .2s;
+      z-index: 20;
+      letter-spacing: 1.1px;
+    }
+    .volver-btn .arrow { font-size: 1.18rem; margin-right: 9px; }
+    .volver-btn:hover { background: #dbc8ff; color: #7a32bf; border-color: #411974; }
+  </style>
+</head>
+<body>
+  <!-- Botón Menú arriba izquierda -->
+  <a href="menu.html" class="volver-btn">
+    <span class="arrow">&#8592;</span> Menú
+  </a>
+  <div class="card-amor">
+    <!-- Lado foto y nombres -->
+    <div class="lado-foto">
+      <img src="foto.jpeg" alt="Foto de ambos" class="foto-amor"/>
+      <div class="nombres-amor">
+        Mila <span>💜</span> Leo
+      </div>
+    </div>
+    <!-- Lado ficha favoritos -->
+    <div class="lado-ficha">
+      <div class="tabla-ficha">
+        <!-- Columna Mili -->
+        <div>
+          <div class="nombre-columna">Mila</div>
+          <div class="favs-list">
+            <div class="campo-ficha"><span class="campo-emoji">🎨</span><span class="campo-titulo">Color:</span>Morado</div>
+            <div class="campo-ficha"><span class="campo-emoji">🏀</span><span class="campo-titulo">Hobby:</span>Basket</div>
+            <div class="campo-ficha"><span class="campo-emoji">🍗</span><span class="campo-titulo">Comida:</span>KFC</div>
+            <div class="campo-ficha"><span class="campo-emoji">🔥</span><span class="campo-titulo">Personaje:</span>Rengoku y Gojo</div>
+            <div class="campo-ficha"><span class="campo-emoji">🍓</span><span class="campo-titulo">Fruta:</span>Fresa</div>
+            <div class="campo-ficha"><span class="campo-emoji">🦫</span><span class="campo-titulo">Animal:</span>Capibara</div>
+            <div class="campo-ficha"><span class="campo-emoji">⚔️</span><span class="campo-titulo">Anime:</span>Shingeki no Kyojin</div>
+            <div class="campo-ficha"><span class="campo-emoji">🎶</span><span class="campo-titulo">Canción:</span>Stop crying your heart out</div>
+            <div class="campo-ficha"><span class="campo-emoji">🧸</span><span class="campo-titulo">Peluche:</span>Stitch</div>
+            <div class="campo-ficha"><span class="campo-emoji">♎</span><span class="campo-titulo">Signo:</span>Libra</div>
+          </div>
+        </div>
+        <!-- Columna Leo -->
+        <div>
+          <div class="nombre-columna">Leo</div>
+          <div class="favs-list">
+            <div class="campo-ficha"><span class="campo-emoji">🎨</span><span class="campo-titulo">Color:</span>Negro</div>
+            <div class="campo-ficha"><span class="campo-emoji">💤</span><span class="campo-titulo">Hobby:</span>Dormir</div>
+            <div class="campo-ficha"><span class="campo-emoji">🍗</span><span class="campo-titulo">Comida:</span>Popeyes</div>
+            <div class="campo-ficha"><span class="campo-emoji">👁️</span><span class="campo-titulo">Personaje:</span>Mike Wazowski</div>
+            <div class="campo-ficha"><span class="campo-emoji">🍊</span><span class="campo-titulo">Fruta:</span>Mandarina</div>
+            <div class="campo-ficha"><span class="campo-emoji">🐱</span><span class="campo-titulo">Animal:</span>Gato</div>
+            <div class="campo-ficha"><span class="campo-emoji">🐉</span><span class="campo-titulo">Anime:</span>Dragon Ball Z</div>
+            <div class="campo-ficha"><span class="campo-emoji">🌊</span><span class="campo-titulo">Canción:</span>Ola de luz</div>
+            <div class="campo-ficha"><span class="campo-emoji">👁️</span><span class="campo-titulo">Peluche:</span>Mike Wazowski</div>
+            <div class="campo-ficha"><span class="campo-emoji">♒</span><span class="campo-titulo">Signo:</span>Acuario</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tiempo de Relación 💜</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e9e1f5 0%, #c8aaff 70%, #b993e6 100%);
+      font-family: 'Montserrat', Arial, sans-serif;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .volver-btn {
+      position: fixed; top: 24px; left: 24px;
+      background: #ede0faee;
+      color: #623da1;
+      font-weight: 700;
+      font-size: 1.07rem;
+      border-radius: 7px;
+      padding: 12px 22px 12px 16px;
+      text-decoration: none;
+      display: flex; align-items: center;
+      border: 2.5px solid #623da1;
+      box-shadow: 0 1px 14px #dec6fc2c;
+      transition: background .2s, color .2s, box-shadow .2s, border-color .2s;
+      z-index: 20;
+      letter-spacing: 1.1px;
+    }
+    .volver-btn .arrow { font-size: 1.18rem; margin-right: 9px; }
+    .volver-btn:hover { background: #dbc8ff; color: #7a32bf; border-color: #411974; }
+
+    .main-container {
+      background: #fff;
+      border-radius: 13px;
+      box-shadow: 0 6px 40px #beabdd33;
+      padding: 2.6rem 2.6rem 1.9rem 2.6rem;
+      min-width: 360px;
+      max-width: 450px;
+      display: flex; flex-direction: column; align-items: stretch;
+      border: 2px solid #c7b4e377;
+      margin-top: 38px;
+      margin-bottom: 22px;
+      position: relative;
+    }
+
+    .titulo-cua {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: #7e3fd8;
+      letter-spacing: 1.3px;
+      margin-bottom: 0.8rem;
+      margin-top: 0;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      border-bottom: 2px solid #e1d0fc77;
+      padding-bottom: 0.9rem;
+    }
+    .titulo-cua .emoji {
+      font-size: 2.15rem;
+      margin-left: 6px;
+      color: #9e4bce;
+      filter: drop-shadow(0 0 2px #e6d1fa88);
+    }
+
+    .fecha-inicio-cua {
+      color: #a193b8;
+      font-size: 1.17rem;
+      font-weight: 700;
+      margin-bottom: 29px;
+      letter-spacing: 1.08px;
+      margin-top: 4px;
+      text-align: left;
+    }
+    .grid-tiempo {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      grid-template-rows: repeat(2,1fr);
+      gap: 15px;
+      width: 100%;
+      margin-bottom: 22px;
+      margin-top: 0.9rem;
+      align-items: stretch;
+    }
+    .cell-t {
+      background: #f4ecff;
+      border: 2px solid #dbbdf5;
+      border-radius: 9px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 17px 3px 13px 3px;
+      box-shadow: 0 1px 8px #cfbffb2c;
+    }
+    .cell-num {
+      font-size: 1.97rem;
+      color: #7b2de1;
+      font-weight: 900;
+      margin-bottom: 2px;
+    }
+    .cell-label {
+      font-size: 1.07rem;
+      color: #a595c5;
+      font-weight: 700;
+      letter-spacing: 1.23px;
+    }
+    /* ANIVERSARIO */
+    .anniv-block-cuad {
+      background: #f4edff;
+      border: 2px solid #cbb6eb;
+      border-radius: 10px;
+      padding: 1.18rem .72rem .9rem .72rem;
+      margin-top: 9px;
+      margin-bottom: 0.3rem;
+      box-shadow: 0 2px 20px #d2bcf92a;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .aniv-row-cuad {
+      display: flex; align-items: center; gap: 8px; font-size: 1.12rem;
+      color: #7e3fd8; font-weight: 800;
+      margin-bottom: 7px;
+      letter-spacing: .8px;
+    }
+    .aniv-mini-heart { font-size: 1.23rem; color: #ba71fa;}
+    .aniv-fecha-cuad {
+      color: #5c3d8f;
+      font-size: 1.19rem;
+      font-weight: 900;
+      letter-spacing: 1.14px;
+      margin-bottom: 14px;
+      margin-top: 0;
+      text-align: center;
+    }
+    .countdown-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 11px;
+      width: 100%;
+    }
+    .cd-cell {
+      background: #ede4fa;
+      border: 2px solid #d1b6fa;
+      border-radius: 7px;
+      text-align: center;
+      box-shadow: 0 1px 7px #dbbbfa22;
+      padding: 8px 0 4px 0;
+      min-width: 75px;
+    }
+    .cd-num {
+      font-size: 1.21rem;
+      color: #7e3fd8;
+      font-weight: 900;
+    }
+    .cd-label {
+      color: #a19ab7;
+      font-size: .83rem;
+      font-weight: 700;
+      letter-spacing: 1.07px;
+    }
+    @media (max-width: 700px) {
+      .main-container { min-width: 0; padding: 6vw 2vw 6vw 2vw;}
+      .titulo-cua { font-size: 1.2rem; }
+      .cell-t { padding: 8px 0 6px 0;}
+      .cell-num { font-size: 1.06rem;}
+      .cell-label { font-size: .63rem;}
+      .countdown-row { grid-template-columns: repeat(2,1fr);}
+      .cd-cell { font-size: .91rem; padding: 4px 0 2px 0;}
+    }
+  </style>
+</head>
+<body>
+  <a href="menu.html" class="volver-btn"><span class="arrow">&#8592;</span> Menú</a>
+  <div class="main-container">
+    <div class="titulo-cua">
+      Tiempo de Relación
+      <span class="emoji">💜</span>
+    </div>
+    <div class="fecha-inicio-cua" id="start-date-label"></div>
+    <div class="grid-tiempo">
+      <div class="cell-t">
+        <div class="cell-num" id="years">0</div>
+        <div class="cell-label">AÑOS</div>
+      </div>
+      <div class="cell-t">
+        <div class="cell-num" id="months">0</div>
+        <div class="cell-label">MESES</div>
+      </div>
+      <div class="cell-t">
+        <div class="cell-num" id="days">0</div>
+        <div class="cell-label">DÍAS</div>
+      </div>
+      <div class="cell-t">
+        <div class="cell-num" id="hours">0</div>
+        <div class="cell-label">HORAS</div>
+      </div>
+      <div class="cell-t">
+        <div class="cell-num" id="minutes">0</div>
+        <div class="cell-label">MIN</div>
+      </div>
+      <div class="cell-t">
+        <div class="cell-num" id="seconds">0</div>
+        <div class="cell-label">SEG</div>
+      </div>
+    </div>
+    <div class="anniv-block-cuad">
+      <div class="aniv-row-cuad">
+        <span class="aniv-mini-heart">💜</span>
+        Próximo aniversario
+      </div>
+      <div class="aniv-fecha-cuad" id="anniv"></div>
+      <div class="countdown-row">
+        <div class="cd-cell"><div class="cd-num" id="cd-days">0</div><div class="cd-label">DÍAS</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-hours">00</div><div class="cd-label">HORAS</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-minutes">00</div><div class="cd-label">MIN</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-seconds">00</div><div class="cd-label">SEG</div></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // FECHA DE INICIO (año, mes-1, día)
+    const startDate = new Date(2024, 5, 10, 0, 0, 0); // 10 de junio de 2024
+
+    function pad(num) { return String(num).padStart(2, "0"); }
+
+    function updateClock() {
+      const now = new Date();
+      let years = now.getFullYear() - startDate.getFullYear();
+      let months = now.getMonth() - startDate.getMonth();
+      let days = now.getDate() - startDate.getDate();
+      let hours = now.getHours() - startDate.getHours();
+      let minutes = now.getMinutes() - startDate.getMinutes();
+      let seconds = now.getSeconds() - startDate.getSeconds();
+
+      if (seconds < 0) { seconds += 60; minutes--; }
+      if (minutes < 0) { minutes += 60; hours--; }
+      if (hours < 0) { hours += 24; days--; }
+      if (days < 0) {
+        // Sumar los días del mes anterior
+        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += prevMonth.getDate();
+        months--;
+      }
+      if (months < 0) { months += 12; years--; }
+
+      document.getElementById("years").textContent = years;
+      document.getElementById("months").textContent = months;
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = pad(hours);
+      document.getElementById("minutes").textContent = pad(minutes);
+      document.getElementById("seconds").textContent = pad(seconds);
+
+      // Próximo aniversario mensual (10 de cada mes)
+      let nextAnniv = new Date(now.getFullYear(), now.getMonth(), 10);
+      if (
+        now.getDate() > 10 ||
+        (now.getDate() === 10 &&
+          (now.getHours() > 0 || now.getMinutes() > 0 || now.getSeconds() > 0))
+      ) {
+        nextAnniv = new Date(now.getFullYear(), now.getMonth() + 1, 10);
+      }
+      const annivStr = nextAnniv.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+      document.getElementById("anniv").textContent = annivStr;
+
+      document.getElementById("start-date-label").textContent =
+        "Juntos desde el " +
+        startDate.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+
+      // Calcular diferencia para el próximo aniversario
+      const diff = nextAnniv - now;
+      let d = 0, h = 0, m = 0, s = 0;
+      if (diff > 0) {
+        d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        m = Math.floor((diff / (1000 * 60)) % 60);
+        s = Math.floor((diff / 1000) % 60);
+      }
+      document.getElementById("cd-days").textContent = d;
+      document.getElementById("cd-hours").textContent = pad(h);
+      document.getElementById("cd-minutes").textContent = pad(m);
+      document.getElementById("cd-seconds").textContent = pad(s);
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
