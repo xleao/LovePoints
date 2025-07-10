@@ -7,6 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Dancing Script -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet"/>
+  <!-- EmailJS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    // Inicializa EmailJS con tu User ID (public key)
+    document.addEventListener("DOMContentLoaded", function() {
+      emailjs.init('OxzHveZTy6OKDrwC1');
+    });
+  </script>
   <style>
     body, h2, h3, p, button, a { font-family: 'Dancing Script', cursive; }
     body { background: url('fondo2.png') center/cover fixed no-repeat; }
@@ -156,8 +164,20 @@
               catch{ setLocalPoints(pts); }
               claimed[c.id] = Date.now();
               localStorage.setItem("claimedCupones",JSON.stringify(claimed));
-              alert("¡Cupón reclamado! Vuelve en 7 días.");
-              init();
+              
+              // ------- EmailJS: enviar correo al reclamar cupón --------
+              emailjs.send('service_sfyajr8', 'template_t6uftlt', {
+                cupon: c.title,
+                fecha: new Date().toLocaleString()
+              })
+              .then(function(response) {
+                alert("¡Cupón reclamado! Se envió un correo de aviso. Vuelve en 7 días.");
+                init();
+              }, function(error) {
+                alert("¡Cupón reclamado! (pero no se pudo avisar por correo)");
+                init();
+              });
+              // --------------------------------------------------------
             } else {
               alert("No tienes suficientes Love Points 😢");
             }
