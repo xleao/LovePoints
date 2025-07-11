@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Comida 🍔</title>
+  <title>Cine 🎬</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -15,52 +15,52 @@
     .wave-char { display: inline-block; animation: wave 2s ease-in-out infinite; }
   </style>
 </head>
-<body class="bg-[#fff8f0] antialiased p-6">
+<body class="bg-[#f7f1fe] antialiased p-6">
   <div class="max-w-6xl mx-auto space-y-6">
-    <!-- Botón Inicio -->
-    <a href="cupones.html"
+    <!-- Botón Volver -->
+    <a href="/menu/cupones.html"
        class="inline-block mb-4 text-purple-800 hover:underline font-extrabold text-xl">
       ← Volver a Cupones
     </a>
 
     <!-- Encabezado -->
-    <header class="bg-[#ffebcd] rounded-xl p-8 text-center shadow-md relative overflow-hidden">
-      <h1 id="headline" class="text-6xl font-bold text-[#d45d12] mb-4">
+    <header class="bg-[#e0cbfd] rounded-xl p-8 text-center shadow-md relative overflow-hidden">
+      <h1 id="headline" class="text-6xl font-bold text-[#883ce6] mb-4">
         <script>
           document.write(
-            "Comida ❤️"
+            "Cine ❤️"
               .split("")
               .map((c,i) => `<span class="wave-char" style="animation-delay:${i*0.1}s">${c}</span>`)
               .join("")
           );
         </script>
       </h1>
-      <p class="text-2xl text-[#5a3e1b]">
-        Disfruta de tu aperitivo favorito… ¡Tú eliges! 😋☕🍟
+      <p class="text-2xl text-[#573087]">
+        ¡Película, popcorn y abrazos asegurados! <br> Disfruta la función que más quieras. 🍿💑
       </p>
-      <div class="absolute top-6 right-8 animate-bounce text-5xl">🍔</div>
+      <div class="absolute top-6 right-8 animate-bounce text-5xl">🎬</div>
     </header>
 
     <!-- Grid de recuadros en dos columnas -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Condiciones -->
       <section class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
-        <h2 class="text-3xl font-semibold text-[#d45d12] mb-4">📋 Condiciones de uso</h2>
+        <h2 class="text-3xl font-semibold text-[#883ce6] mb-4">📋 Condiciones de uso</h2>
         <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
-          <li>🕒 <strong>Presencia obligatoria:</strong> Yo debo estar contigo.</li>
-          <li>🍽️ <strong>Elección conjunta:</strong> ¡Menú 50/50 entre tus antojos y mis ocurrencias!</li>
-          <li>🤳 <strong>Foto:</strong> Selfie inicial y final (sonrisa obligatoria 😁).</li>
-          <li>📵 <strong>Sin pantallas:</strong> Móviles guardados, miradas solo para ti.</li>
+          <li>👫 <strong>Juntos:</strong> El cupón solo se usa acompañados (vale por dos entradas).</li>
+          <li>🍿 <strong>Snacks:</strong> Incluye canchita y bebida, tú eliges el combo.</li>
+          <li>🎬 <strong>Película:</strong> Tú eliges la película (pero sin dormirte, eh 😜).</li>
+          <li>🤳 <strong>Selfie:</strong> Foto romántica al final de la función.</li>
         </ul>
       </section>
 
       <!-- Tips divertidos -->
-      <section class="bg-[#fde2e2] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
-        <h2 class="text-3xl font-semibold text-[#b02a37] mb-4">💡 Tips divertidos</h2>
+      <section class="bg-[#f7e2fd] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#b02a9a] mb-4">💡 Tips románticos</h2>
         <ul class="list-disc list-inside space-y-3 text-lg text-[#333]">
-          <li>🎲 Juguemos “Verdad o Reto” entre plato y plato.</li>
-          <li>🔔 Toca la campana imaginaria si quieres repetir.</li>
-          <li>🎶 Música de fondo.</li>
+          <li>💏 Reto: al menos un beso por cada trailer.</li>
+          <li>🍫 Lleva tu snack favorito oculto.</li>
+          <li>🎵 Haz playlist para el camino al cine.</li>
         </ul>
       </section>
     </div>
@@ -68,12 +68,12 @@
     <!-- Fila final: válido hasta + love points -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Válido hasta -->
-      <section class="bg-[#e8f9fd] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
-        <h2 class="text-3xl font-semibold text-[#0277bd] mb-4">⏰ Válido hasta</h2>
+      <section class="bg-[#e7f7fd] rounded-xl p-8 shadow-lg hover:shadow-2xl transition">
+        <h2 class="text-3xl font-semibold text-[#2992b7] mb-4">⏰ Válido hasta</h2>
         <p class="text-lg text-[#333]"><strong>31 de Diciembre 2025 🎉</strong></p>
       </section>
       <!-- Love Points -->
-      <section class="bg-[#fffaf0] rounded-xl p-8 shadow-lg flex items-center justify-center">
+      <section class="bg-[#f8f1ff] rounded-xl p-8 shadow-lg flex items-center justify-center">
         <div class="text-3xl text-purple-800 font-bold">
           Love Points: <span id="points" class="text-purple-600">0</span>
         </div>

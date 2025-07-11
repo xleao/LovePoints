@@ -17,7 +17,7 @@
   </script>
   <style>
     body, h2, h3, p, button, a { font-family: 'Dancing Script', cursive; }
-    body { background: url('fondo2.png') center/cover fixed no-repeat; }
+    body { background: url('/imagenes/fondo2.png') center/cover fixed no-repeat; }
     @keyframes fadeInUp { 0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);} }
     .fade-in { opacity:0; animation:fadeInUp .8s ease-out forwards; }
     .delay-1 { animation-delay:.2s; }
@@ -56,7 +56,7 @@
 </head>
 <body class="antialiased">
   <!-- Botón Volver -->
-  <a href="menu.html" class="volver-btn"><span class="arrow">&#8592;</span> Volver</a>
+  <a href="/menu.html" class="volver-btn"><span class="arrow">&#8592;</span> Volver</a>
 
   <main class="min-h-screen py-12 px-6">
     <!-- Contador de Love Points -->
@@ -71,13 +71,13 @@
   <script>
     // — Lista de cupones —
     const CUPONES = [
-      { id:1, title:"Cupón de Comida 🍔", cost:50, desc:"Primero el diente luego el pendiente...", page:"comida.html" },
-      { id:2, title:"Cupón de Ropa 👗", cost:100, desc:"Nueva outfit, mi chica tiene estilo.", page:"ropa.html" },
-      { id:3, title:"Cupón de Maquillaje 💄", cost:100, desc:"¿Qué es Aruma?", page:"maquillaje.html" },
-      { id:4, title:"Juegos Mecánicos 🎢", cost:200, desc:"Pase para atracciones...", page:"mecanicos.html" },
-      { id:5, title:"Cupón Masaje 💆‍♀️", cost:50, desc:"Masaje 30 min con aceites…", page:"masaje.html" },
-      { id:6, title:"Experiencia Sorpresa 🎁", cost:150, desc:"Sorpresa personalizada… 🤫", page:"sorpresa.html" },
-      { id:7, title:"Cupón de Cine 🎬", cost:120, desc:"¡Disfruta una función de cine juntos!", page:"cine.html" }
+      { id:1, title:"Cupón de Comida 🍔", cost:50, desc:"Primero el diente luego el pendiente...", page:"/menu/cupones/comida.html" },
+      { id:2, title:"Cupón de Ropa 👗", cost:100, desc:"Nueva outfit, mi chica tiene estilo.", page:"/menu/cupones/ropa.html" },
+      { id:3, title:"Cupón de Maquillaje 💄", cost:100, desc:"¿Qué es Aruma?", page:"/menu/cupones/maquillaje.html" },
+      { id:4, title:"Juegos Mecánicos 🎢", cost:200, desc:"Pase para atracciones...", page:"/menu/cupones/mecanicos.html" },
+      { id:5, title:"Cupón Masaje 💆‍♀️", cost:50, desc:"Masaje 30 min con aceites…", page:"/menu/cupones/masaje.html" },
+      { id:6, title:"Experiencia Sorpresa 🎁", cost:150, desc:"Sorpresa personalizada… 🤫", page:"/menu/cupones/sorpresa.html" },
+      { id:7, title:"Cupón de Cine 🎬", cost:120, desc:"¡Disfruta una función de cine juntos!", page:"/menu/cupones/cine.html" }
     ];
     const WEEK_MS = 7*24*60*60*1000;
 
